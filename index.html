@@ -99,30 +99,28 @@
   </div>
 
   <!-- Background music -->
-  <audio id="music" autoplay loop>
-    <source src="Distance (Lyrics) - Yebba - (128 Kbps).mp3" type="audio/mpeg">
+  <audio id="music" loop>
+    <source src="distance.mp3" type="audio/mpeg">
   </audio>
 
   <script>
+    // Slideshow
     const slides = document.querySelectorAll("#slideshow img");
     const grid = document.getElementById("grid");
     const message = document.getElementById("message");
     const slideDuration = 5000; // 5 seconds per slide
     let current = 0;
 
-    // Hide all slides except the first one
     slides.forEach((slide, i) => {
       if (i !== 0) slide.style.display = "none";
     });
 
-    // Slideshow function
     const slideshowInterval = setInterval(() => {
       slides[current].classList.remove("active");
       slides[current].style.display = "none";
       current++;
       if (current >= slides.length) {
         clearInterval(slideshowInterval);
-        // Show grid and message
         document.getElementById("slideshow").style.display = "none";
         grid.style.display = "grid";
         message.style.display = "block";
@@ -132,11 +130,14 @@
       slides[current].classList.add("active");
     }, slideDuration);
 
-    // Play music immediately
+    // Music autoplay on first click (works even if browser blocks autoplay)
     const music = document.getElementById("music");
     music.play().catch(() => {
-      console.log("Autoplay blocked — music will start when she interacts with page.");
+      console.log("Autoplay blocked, will start on first click");
     });
+    document.body.addEventListener("click", () => {
+      music.play();
+    }, { once: true });
   </script>
 
 </body>
