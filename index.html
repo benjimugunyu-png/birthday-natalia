@@ -22,7 +22,6 @@
       color: #d1006c;
     }
 
-    /* Press Me button */
     #startButton {
       padding: 30px 60px;
       font-size: 36px;
@@ -38,7 +37,6 @@
       transform: scale(1.1);
     }
 
-    /* Slideshow */
     #slideshow {
       display: none;
       position: fixed;
@@ -71,7 +69,6 @@
       to {opacity: 1;}
     }
 
-    /* Birthday message */
     #message {
       display: none;
       position: absolute;
@@ -93,16 +90,6 @@
     #message.show {
       display: block;
       opacity: 1;
-    }
-
-    /* Spotify player container */
-    #spotify-container {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      width: 90%;
-      max-width: 500px;
-      z-index: 3;
     }
   </style>
 </head>
@@ -127,31 +114,32 @@
     HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
-  <div id="spotify-container">
-    <iframe data-testid="embed-iframe" style="border-radius:12px" 
-            src="https://open.spotify.com/embed/track/1SsUx7lHTfuiSSB1KfRMdE?utm_source=generator" 
-            width="100%" height="80" frameborder="0" allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-    </iframe>
-  </div>
+  <!-- Background music -->
+  <audio id="music" loop>
+    <source src="distance.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     const startButton = document.getElementById("startButton");
     const slideshow = document.getElementById("slideshow");
     const slides = document.querySelectorAll("#slideshow img");
+    const music = document.getElementById("music");
     const message = document.getElementById("message");
-    const spotify = document.getElementById("spotify-container");
-    const slideDuration = 6000;
+    const slideDuration = 6000; // 6 seconds per slide
     let current = 0;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       slideshow.style.display = "block";
-      spotify.style.display = "block"; // reveal Spotify player
+
+      // Start music immediately
+      music.play().catch(() => {
+        // in case autoplay blocked (usually not on user click)
+        console.log("Music play blocked by browser");
+      });
 
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
 
-      // Slideshow loop
       const slideshowInterval = setInterval(() => {
         slides[current].classList.remove("active");
         slides[current].style.display = "none";
