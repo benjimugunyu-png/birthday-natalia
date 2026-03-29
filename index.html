@@ -4,32 +4,61 @@
   <meta charset="UTF-8">
   <title>Happy Birthday Natalia!</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: 'Arial', sans-serif;
       background-color: #ffe6f0;
-      text-align: center;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       color: #d1006c;
     }
 
-    h1 {
-      margin-top: 30px;
+    /* Start button */
+    #startButton {
+      padding: 30px 60px;
+      font-size: 36px;
+      background-color: #d1006c;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
 
-    /* Slideshow */
+    #startButton:hover {
+      transform: scale(1.1);
+    }
+
+    /* Slideshow container */
     #slideshow {
-      max-width: 600px;
-      margin: 50px auto;
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: black;
+      z-index: 1;
     }
 
     #slideshow img {
-      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      max-width: 100%;
+      max-height: 100%;
+      transform: translate(-50%, -50%);
       display: none;
-      border-radius: 20px;
+      object-fit: contain;
     }
 
     #slideshow img.active {
@@ -42,36 +71,27 @@
       to {opacity: 1;}
     }
 
-    /* Grid at the end */
-    #grid {
-      display: none;
-      margin: 30px auto;
-      max-width: 900px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    #grid img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    /* Birthday message */
+    /* Optional: birthday message at the end */
     #message {
       display: none;
-      margin-top: 20px;
-      font-size: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+      color: #ffffff;
+      text-align: center;
       line-height: 1.5;
+      padding: 20px;
+      background-color: rgba(209,0,108,0.5);
+      border-radius: 20px;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎉 HAPPY BIRTHDAY NATALIA! 🎉</h1>
+  <!-- Start button -->
+  <button id="startButton">Press Me!</button>
 
   <!-- Slideshow -->
   <div id="slideshow">
@@ -83,19 +103,9 @@
     <img src="pic6.jpg">
   </div>
 
-  <!-- Grid of pictures after slideshow -->
-  <div id="grid">
-    <img src="pic1.jpg">
-    <img src="pic2.jpg">
-    <img src="pic3.jpg">
-    <img src="pic4.jpg">
-    <img src="pic5.jpg">
-    <img src="pic6.jpg">
-  </div>
-
-  <!-- Birthday message -->
+  <!-- Birthday message (optional at the end of slideshow) -->
   <div id="message">
-    HAPPY BIRTHDAY to the coolest n prettiest girl in the world. You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
+    HAPPY BIRTHDAY to the coolest n prettiest girl in the world! 🩷
   </div>
 
   <!-- Background music -->
@@ -104,40 +114,47 @@
   </audio>
 
   <script>
-    // Slideshow
+    const startButton = document.getElementById("startButton");
+    const slideshow = document.getElementById("slideshow");
     const slides = document.querySelectorAll("#slideshow img");
-    const grid = document.getElementById("grid");
+    const music = document.getElementById("music");
     const message = document.getElementById("message");
     const slideDuration = 5000; // 5 seconds per slide
     let current = 0;
 
-    slides.forEach((slide, i) => {
-      if (i !== 0) slide.style.display = "none";
-    });
+    startButton.addEventListener("click", () => {
+      // Hide button
+      startButton.style.display = "none";
 
-    const slideshowInterval = setInterval(() => {
-      slides[current].classList.remove("active");
-      slides[current].style.display = "none";
-      current++;
-      if (current >= slides.length) {
-        clearInterval(slideshowInterval);
-        document.getElementById("slideshow").style.display = "none";
-        grid.style.display = "grid";
-        message.style.display = "block";
-        return;
-      }
-      slides[current].style.display = "block";
-      slides[current].classList.add("active");
-    }, slideDuration);
+      // Show slideshow
+      slideshow.style.display = "block";
 
-    // Music autoplay on first click (works even if browser blocks autoplay)
-    const music = document.getElementById("music");
-    music.play().catch(() => {
-      console.log("Autoplay blocked, will start on first click");
+      // Start music
+      music.play().catch(() => {
+        console.log("Autoplay blocked, will start on first click");
+        document.body.addEventListener("click", () => {
+          music.play();
+        }, { once: true });
+      });
+
+      // Hide all slides except first
+      slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
+
+      // Start slideshow
+      const slideshowInterval = setInterval(() => {
+        slides[current].classList.remove("active");
+        slides[current].style.display = "none";
+        current++;
+        if (current >= slides.length) {
+          clearInterval(slideshowInterval);
+          // Optionally show message at the end
+          message.style.display = "block";
+          return;
+        }
+        slides[current].style.display = "block";
+        slides[current].classList.add("active");
+      }, slideDuration);
     });
-    document.body.addEventListener("click", () => {
-      music.play();
-    }, { once: true });
   </script>
 
 </body>
