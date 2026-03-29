@@ -94,6 +94,16 @@
       display: block;
       opacity: 1;
     }
+
+    /* Spotify player container */
+    #spotify-container {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      width: 90%;
+      max-width: 500px;
+      z-index: 3;
+    }
   </style>
 </head>
 <body>
@@ -120,30 +130,28 @@
     HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
-  <!-- Background music -->
-  <audio id="music" loop>
-    <source src="distance.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Spotify player -->
+  <div id="spotify-container">
+    <iframe data-testid="embed-iframe" style="border-radius:12px" 
+            src="https://open.spotify.com/embed/track/1SsUx7lHTfuiSSB1KfRMdE?utm_source=generator" 
+            width="100%" height="80" frameborder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+    </iframe>
+  </div>
 
   <script>
     const startButton = document.getElementById("startButton");
     const slideshow = document.getElementById("slideshow");
     const slides = document.querySelectorAll("#slideshow img");
-    const music = document.getElementById("music");
     const message = document.getElementById("message");
+    const spotify = document.getElementById("spotify-container");
     const slideDuration = 6000; // 6 seconds per slide
     let current = 0;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       slideshow.style.display = "block";
-
-      // Play music when button is pressed
-      music.currentTime = 0;
-      music.play().catch(() => {
-        // fallback if browser blocks
-        document.body.addEventListener("click", () => music.play(), { once: true });
-      });
+      spotify.style.display = "block"; // show Spotify player
 
       // Hide all slides except first
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
@@ -155,7 +163,7 @@
         current++;
         if (current >= slides.length) {
           clearInterval(slideshowInterval);
-          // Show birthday message at the end with fade-in
+          // Show birthday message at the end
           message.classList.add("show");
           return;
         }
