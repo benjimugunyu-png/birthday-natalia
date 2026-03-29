@@ -109,11 +109,15 @@
     <img src="pic4.jpg">
     <img src="pic5.jpg">
     <img src="pic6.jpg">
+    <img src="pic7.jpg">
+    <img src="pic8.jpg">
+    <img src="pic9.jpg">
+    <img src="pic10.jpg">
   </div>
 
   <!-- Birthday message -->
   <div id="message">
-    HAPPY BIRTHDAY to the coolest n prettiest girl in the world! 🩷
+    HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
   <!-- Background music -->
@@ -127,17 +131,17 @@
     const slides = document.querySelectorAll("#slideshow img");
     const music = document.getElementById("music");
     const message = document.getElementById("message");
-    const slideDuration = 5000; // 5 seconds per slide
+    const slideDuration = 6000; // 6 seconds per slide
     let current = 0;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       slideshow.style.display = "block";
 
-      // Play music from beginning
+      // Play music when button is pressed
       music.currentTime = 0;
       music.play().catch(() => {
-        // fallback if browser blocks autoplay
+        // fallback if browser blocks
         document.body.addEventListener("click", () => music.play(), { once: true });
       });
 
