@@ -86,6 +86,12 @@
       background-color: rgba(209,0,108,0.7);
       border-radius: 20px;
       z-index: 2;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+
+    #message.show {
+      opacity: 1;
     }
   </style>
 </head>
@@ -128,12 +134,16 @@
     let current = 0;
 
     startButton.addEventListener("click", () => {
+      // Hide button
       startButton.style.display = "none";
+
+      // Show slideshow
       slideshow.style.display = "block";
 
-      // Set music to start at 0:15
+      // Start music at 0:15 immediately (user interaction allows autoplay)
       music.currentTime = 15;
       music.play().catch(() => {
+        // fallback if browser blocks
         document.body.addEventListener("click", () => {
           music.play();
         }, { once: true });
@@ -149,8 +159,8 @@
         current++;
         if (current >= slides.length) {
           clearInterval(slideshowInterval);
-          // Show birthday message at the end
-          message.style.display = "block";
+          // Show birthday message at the end with fade-in
+          message.classList.add("show");
           return;
         }
         slides[current].style.display = "block";
