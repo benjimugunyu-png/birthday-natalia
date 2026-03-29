@@ -46,9 +46,9 @@
     #grid {
       display: none;
       margin: 30px auto;
-      max-width: 800px;
+      max-width: 900px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
 
@@ -57,6 +57,7 @@
       border-radius: 10px;
     }
 
+    /* Birthday message */
     #message {
       display: none;
       margin-top: 20px;
@@ -77,9 +78,9 @@
     <img src="pic1.jpg" class="active">
     <img src="pic2.jpg">
     <img src="pic3.jpg">
-    <!-- Add more pictures if you like -->
-    <!-- <img src="pic4.jpg"> -->
-    <!-- <img src="pic5.jpg"> -->
+    <img src="pic4.jpg">
+    <img src="pic5.jpg">
+    <img src="pic6.jpg">
   </div>
 
   <!-- Grid of pictures after slideshow -->
@@ -87,9 +88,9 @@
     <img src="pic1.jpg">
     <img src="pic2.jpg">
     <img src="pic3.jpg">
-    <!-- Add more images here -->
-    <!-- <img src="pic4.jpg"> -->
-    <!-- <img src="pic5.jpg"> -->
+    <img src="pic4.jpg">
+    <img src="pic5.jpg">
+    <img src="pic6.jpg">
   </div>
 
   <!-- Birthday message -->
@@ -99,37 +100,42 @@
 
   <!-- Background music -->
   <audio id="music" autoplay loop>
-    <source src="distance.mp3" type="audio/mpeg">
+    <source src="Distance (Lyrics) - Yebba - (128 Kbps).mp3" type="audio/mpeg">
   </audio>
 
   <script>
     const slides = document.querySelectorAll("#slideshow img");
-    let current = 0;
+    const grid = document.getElementById("grid");
+    const message = document.getElementById("message");
     const slideDuration = 5000; // 5 seconds per slide
+    let current = 0;
 
-    // Show each slide
+    // Hide all slides except the first one
+    slides.forEach((slide, i) => {
+      if (i !== 0) slide.style.display = "none";
+    });
+
+    // Slideshow function
     const slideshowInterval = setInterval(() => {
       slides[current].classList.remove("active");
+      slides[current].style.display = "none";
       current++;
       if (current >= slides.length) {
-        clearInterval(slideshowInterval); // stop slideshow
-        showGridAndMessage();
+        clearInterval(slideshowInterval);
+        // Show grid and message
+        document.getElementById("slideshow").style.display = "none";
+        grid.style.display = "grid";
+        message.style.display = "block";
         return;
       }
+      slides[current].style.display = "block";
       slides[current].classList.add("active");
     }, slideDuration);
 
-    // Show grid of pictures and message
-    function showGridAndMessage() {
-      document.getElementById("slideshow").style.display = "none";
-      document.getElementById("grid").style.display = "grid";
-      document.getElementById("message").style.display = "block";
-    }
-
-    // Start music immediately
+    // Play music immediately
     const music = document.getElementById("music");
     music.play().catch(() => {
-      console.log("Autoplay blocked, will start when user interacts");
+      console.log("Autoplay blocked — music will start when she interacts with page.");
     });
   </script>
 
