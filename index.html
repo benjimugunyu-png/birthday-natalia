@@ -71,7 +71,7 @@
       to {opacity: 1;}
     }
 
-    /* Optional: birthday message at the end */
+    /* Birthday message */
     #message {
       display: none;
       position: absolute;
@@ -83,8 +83,9 @@
       text-align: center;
       line-height: 1.5;
       padding: 20px;
-      background-color: rgba(209,0,108,0.5);
+      background-color: rgba(209,0,108,0.7);
       border-radius: 20px;
+      z-index: 2;
     }
   </style>
 </head>
@@ -101,15 +102,19 @@
     <img src="pic4.jpg">
     <img src="pic5.jpg">
     <img src="pic6.jpg">
+    <img src="pic7.jpg">
+    <img src="pic8.jpg">
+    <img src="pic9.jpg">
+    <img src="pic10.jpg">
   </div>
 
-  <!-- Birthday message (optional at the end of slideshow) -->
+  <!-- Birthday message -->
   <div id="message">
-    HAPPY BIRTHDAY to the coolest n prettiest girl in the world! 🩷
+    HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
   <!-- Background music -->
-  <audio id="music" loop>
+  <audio id="music">
     <source src="distance.mp3" type="audio/mpeg">
   </audio>
 
@@ -117,9 +122,9 @@
     const startButton = document.getElementById("startButton");
     const slideshow = document.getElementById("slideshow");
     const slides = document.querySelectorAll("#slideshow img");
-    const music = document.getElementById("music");
     const message = document.getElementById("message");
-    const slideDuration = 5000; // 5 seconds per slide
+    const music = document.getElementById("music");
+    const slideDuration = 6000; // 6 seconds per slide
     let current = 0;
 
     startButton.addEventListener("click", () => {
@@ -129,13 +134,14 @@
       // Show slideshow
       slideshow.style.display = "block";
 
-      // Start music
-      music.play().catch(() => {
-        console.log("Autoplay blocked, will start on first click");
-        document.body.addEventListener("click", () => {
-          music.play();
-        }, { once: true });
-      });
+      // Start music after 15 seconds
+      setTimeout(() => {
+        music.play().catch(() => {
+          document.body.addEventListener("click", () => {
+            music.play();
+          }, { once: true });
+        });
+      }, 15000);
 
       // Hide all slides except first
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
@@ -147,7 +153,7 @@
         current++;
         if (current >= slides.length) {
           clearInterval(slideshowInterval);
-          // Optionally show message at the end
+          // Show birthday message
           message.style.display = "block";
           return;
         }
