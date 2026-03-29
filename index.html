@@ -120,7 +120,7 @@
   </div>
 
   <!-- Background music -->
-  <audio id="music">
+  <audio id="music" autoplay>
     <source src="distance.mp3" type="audio/mpeg">
   </audio>
 
@@ -134,14 +134,11 @@
     let current = 0;
 
     startButton.addEventListener("click", () => {
-      // Hide button
       startButton.style.display = "none";
-
-      // Show slideshow
       slideshow.style.display = "block";
 
-      // Start music at 0:15 immediately (user interaction allows autoplay)
-      music.currentTime = 15;
+      // Play music from beginning
+      music.currentTime = 0;
       music.play().catch(() => {
         // fallback if browser blocks
         document.body.addEventListener("click", () => {
