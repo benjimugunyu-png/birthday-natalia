@@ -128,20 +128,16 @@
     let current = 0;
 
     startButton.addEventListener("click", () => {
-      // Hide button
       startButton.style.display = "none";
-
-      // Show slideshow
       slideshow.style.display = "block";
 
-      // Start music after 15 seconds
-      setTimeout(() => {
-        music.play().catch(() => {
-          document.body.addEventListener("click", () => {
-            music.play();
-          }, { once: true });
-        });
-      }, 15000);
+      // Set music to start at 0:15
+      music.currentTime = 15;
+      music.play().catch(() => {
+        document.body.addEventListener("click", () => {
+          music.play();
+        }, { once: true });
+      });
 
       // Hide all slides except first
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
@@ -153,7 +149,7 @@
         current++;
         if (current >= slides.length) {
           clearInterval(slideshowInterval);
-          // Show birthday message
+          // Show birthday message at the end
           message.style.display = "block";
           return;
         }
