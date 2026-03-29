@@ -22,7 +22,7 @@
       color: #d1006c;
     }
 
-    /* Start button */
+    /* Press Me button */
     #startButton {
       padding: 30px 60px;
       font-size: 36px;
@@ -38,7 +38,7 @@
       transform: scale(1.1);
     }
 
-    /* Slideshow container */
+    /* Slideshow */
     #slideshow {
       display: none;
       position: fixed;
@@ -71,7 +71,7 @@
       to {opacity: 1;}
     }
 
-    /* Birthday message at the end */
+    /* Birthday message */
     #message {
       display: none;
       position: absolute;
@@ -108,10 +108,8 @@
 </head>
 <body>
 
-  <!-- Start button -->
   <button id="startButton">Press Me!</button>
 
-  <!-- Slideshow -->
   <div id="slideshow">
     <img src="pic1.jpg" class="active">
     <img src="pic2.jpg">
@@ -125,12 +123,10 @@
     <img src="pic10.jpg">
   </div>
 
-  <!-- Birthday message -->
   <div id="message">
     HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
-  <!-- Spotify player -->
   <div id="spotify-container">
     <iframe data-testid="embed-iframe" style="border-radius:12px" 
             src="https://open.spotify.com/embed/track/1SsUx7lHTfuiSSB1KfRMdE?utm_source=generator" 
@@ -145,25 +141,23 @@
     const slides = document.querySelectorAll("#slideshow img");
     const message = document.getElementById("message");
     const spotify = document.getElementById("spotify-container");
-    const slideDuration = 6000; // 6 seconds per slide
+    const slideDuration = 6000;
     let current = 0;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       slideshow.style.display = "block";
-      spotify.style.display = "block"; // show Spotify player
+      spotify.style.display = "block"; // reveal Spotify player
 
-      // Hide all slides except first
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
 
-      // Start slideshow
+      // Slideshow loop
       const slideshowInterval = setInterval(() => {
         slides[current].classList.remove("active");
         slides[current].style.display = "none";
         current++;
         if (current >= slides.length) {
           clearInterval(slideshowInterval);
-          // Show birthday message at the end
           message.classList.add("show");
           return;
         }
