@@ -22,6 +22,7 @@
       color: #d1006c;
     }
 
+    /* Start button */
     #startButton {
       padding: 30px 60px;
       font-size: 36px;
@@ -31,12 +32,14 @@
       border-radius: 15px;
       cursor: pointer;
       transition: transform 0.2s;
+      z-index: 2;
     }
 
     #startButton:hover {
       transform: scale(1.1);
     }
 
+    /* Slideshow container */
     #slideshow {
       display: none;
       position: fixed;
@@ -69,6 +72,7 @@
       to {opacity: 1;}
     }
 
+    /* Birthday message at the end */
     #message {
       display: none;
       position: absolute;
@@ -95,8 +99,10 @@
 </head>
 <body>
 
+  <!-- Start button -->
   <button id="startButton">Press Me!</button>
 
+  <!-- Slideshow -->
   <div id="slideshow">
     <img src="pic1.jpg" class="active">
     <img src="pic2.jpg">
@@ -110,6 +116,7 @@
     <img src="pic10.jpg">
   </div>
 
+  <!-- Birthday message -->
   <div id="message">
     HAPPY BIRTHDAY to the coolest n prettiest girl in the world! You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
@@ -129,17 +136,21 @@
     let current = 0;
 
     startButton.addEventListener("click", () => {
+      // Hide the button
       startButton.style.display = "none";
+
+      // Show slideshow
       slideshow.style.display = "block";
 
       // Start music immediately
       music.play().catch(() => {
-        // in case autoplay blocked (usually not on user click)
         console.log("Music play blocked by browser");
       });
 
+      // Hide all slides except the first
       slides.forEach((slide, i) => { if(i !== 0) slide.style.display = "none"; });
 
+      // Start slideshow
       const slideshowInterval = setInterval(() => {
         slides[current].classList.remove("active");
         slides[current].style.display = "none";
