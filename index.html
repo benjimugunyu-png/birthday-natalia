@@ -12,6 +12,11 @@
       color: #d1006c;
     }
 
+    h1 {
+      margin-top: 30px;
+    }
+
+    /* Slideshow */
     #slideshow {
       max-width: 600px;
       margin: 50px auto;
@@ -37,34 +42,29 @@
       to {opacity: 1;}
     }
 
-    #message {
-      margin-top: 30px;
-      font-size: 20px;
+    /* Grid at the end */
+    #grid {
       display: none;
-      max-width: 600px;
+      margin: 30px auto;
+      max-width: 800px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    #grid img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    #message {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.5;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 18px;
-      background-color: #d1006c;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #ff3399;
-    }
-
-    /* Hide the YouTube iframe */
-    #musicIframe {
-      display: none;
     }
   </style>
 </head>
@@ -72,39 +72,65 @@
 
   <h1>🎉 HAPPY BIRTHDAY NATALIA! 🎉</h1>
 
+  <!-- Slideshow -->
   <div id="slideshow">
     <img src="pic1.jpg" class="active">
     <img src="pic2.jpg">
     <img src="pic3.jpg">
+    <!-- Add more pictures if you like -->
+    <!-- <img src="pic4.jpg"> -->
+    <!-- <img src="pic5.jpg"> -->
   </div>
 
-  <button onclick="showMessage()">Click for Your Message!</button>
+  <!-- Grid of pictures after slideshow -->
+  <div id="grid">
+    <img src="pic1.jpg">
+    <img src="pic2.jpg">
+    <img src="pic3.jpg">
+    <!-- Add more images here -->
+    <!-- <img src="pic4.jpg"> -->
+    <!-- <img src="pic5.jpg"> -->
+  </div>
 
+  <!-- Birthday message -->
   <div id="message">
     HAPPY BIRTHDAY to the coolest n prettiest girl in the world. You are the most intelligent, most beautiful girl I have come across all my life. You are the awesome of the sauces 😭🤣. I just wanted to tell you Happy Birthday. I'm sorry for making you ask for this like a million times it won't happen again. Happy Birthday I LOVE YOU 🩷.
   </div>
 
-  <!-- Hidden YouTube audio -->
-  <iframe id="musicIframe" src="https://www.youtube.com/embed/FU2g5gT3myA?autoplay=1&loop=1&playlist=FU2g5gT3myA" frameborder="0" allow="autoplay"></iframe>
+  <!-- Background music -->
+  <audio id="music" autoplay loop>
+    <source src="distance.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    // Slideshow
-    let current = 0;
     const slides = document.querySelectorAll("#slideshow img");
+    let current = 0;
+    const slideDuration = 5000; // 5 seconds per slide
 
-    setInterval(() => {
+    // Show each slide
+    const slideshowInterval = setInterval(() => {
       slides[current].classList.remove("active");
-      current = (current + 1) % slides.length;
+      current++;
+      if (current >= slides.length) {
+        clearInterval(slideshowInterval); // stop slideshow
+        showGridAndMessage();
+        return;
+      }
       slides[current].classList.add("active");
-    }, 3000); // change every 3 seconds
+    }, slideDuration);
 
-    // Show message and play hidden YouTube audio
-    function showMessage() {
+    // Show grid of pictures and message
+    function showGridAndMessage() {
+      document.getElementById("slideshow").style.display = "none";
+      document.getElementById("grid").style.display = "grid";
       document.getElementById("message").style.display = "block";
-      // Trigger YouTube autoplay
-      const iframe = document.getElementById("musicIframe");
-      iframe.src += "&autoplay=1";
     }
+
+    // Start music immediately
+    const music = document.getElementById("music");
+    music.play().catch(() => {
+      console.log("Autoplay blocked, will start when user interacts");
+    });
   </script>
 
 </body>
